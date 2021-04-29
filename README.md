@@ -14,7 +14,7 @@ Easy way to implement localization for your games! Translate to any language! Th
 - Way better for production as you won't need to run the project from initial load screen.
 - Monobehaviours should be fine for very small projects though, you choose :D.
 
-## How to setup staic approach:
+## How to setup static approach:
 - Create a language in your project.
 - Create and place them in "Resources/Language"
 
@@ -33,7 +33,26 @@ Easy way to implement localization for your games! Translate to any language! Th
 
 ### SetUp your default language
 - You don't need to reference the Scriptable Objects as the system will automatically get them from the resources folder.
+- You'll have to manually write your default language (currently set to english) in Translate.cs
 
+### Using Translator
+- Attatch the Translator_UI_Text to a text object and write down the desired key.
+
+![1](Screenshots/4.png)
+
+### Done
+![1](Screenshots/5.png)
+
+<p align="center">
+  <br>.<br>
+  <br>.<br>
+  <br>.<br>
+  <br>.<br>
+  <br>.<br>
+  <br>.<br>
+  <br>.<br>
+  <br>.<br>
+</p>
 
 
 ## How to setup Monobehaviour:
