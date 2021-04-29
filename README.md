@@ -54,7 +54,7 @@ Easy way to implement localization for your games! Translate to any language! Th
 
 - Go to "Project Settings/Script Execution Order" and place the translate script with a -1. That will fix your problems :D
 
-![1](Screenshots/5.png)
+![1](Screenshots/6.png)
 
 
 
