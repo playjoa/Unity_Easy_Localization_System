@@ -46,7 +46,7 @@ Easy way to implement localization for your games! Translate to any language! Th
 
 
 ### OBS:
-- Unity might be weird sometimes and execute some "OnEnable"s before some "Awakes".
+- Unity might be weird sometimes and execute some "OnEnable"s before some "Awake"s.
 - This can cause errors if you want to translate Texts in the <strong>first scene</strong> of your project.
 - But this can be easily fixed.
 
