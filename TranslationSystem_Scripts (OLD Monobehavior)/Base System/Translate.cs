@@ -42,7 +42,7 @@ public class Translate : MonoBehaviour
 
     void GetCurrentLanguage()
     {
-        SystemLanguage currentSystemLanguage = Application.systemLanguage;
+        SystemLanguage currentSystemLanguage = CurrentSystemLanguage();
 
         if (!languageDictionary.ContainsKey(currentSystemLanguage))
             currentLanguage = defaultLanguage;
@@ -76,7 +76,9 @@ public class Translate : MonoBehaviour
         
         currentLanguage = newLanguage;
 
-        OnLanguageChanged();
+        RegisterLanguageNewMemory(currentLanguage);
+
+        OnLanguageChanged?.Invoke();
     }
 
     public static List<SystemLanguage> AvailableLanguages()
@@ -97,5 +99,26 @@ public class Translate : MonoBehaviour
             return returnError;
         }
     } 
-}
+    
+    void RegisterLanguageNewMemory(SystemLanguage newLanguage) 
+    {
+        PlayerPrefs.SetString(playerPrefLanguage, newLanguage.ToString());
+    }
 
+    SystemLanguage CurrentSystemLanguage()
+    {
+        if (PlayerPrefs.HasKey(playerPrefLanguage))
+        {
+           string savedLanguage = PlayerPrefs.GetString(playerPrefLanguage);
+
+           return ConvertStringToSystemLanguage(savedLanguage);
+        }
+
+        return Application.systemLanguage;
+    }
+
+    SystemLanguage ConvertStringToSystemLanguage(string languageToConvert) 
+    {
+        return (SystemLanguage)Enum.Parse(typeof(SystemLanguage), languageToConvert);
+    }
+}

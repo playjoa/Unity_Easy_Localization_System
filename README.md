@@ -8,7 +8,35 @@ Easy way to implement localization for your games! Translate to any language! Th
 - Add multiple languages.
 - OnLanguageChange call to update active texts.
 
-## How to setup:
+## Why use static approach
+- It only calls for resources once to create the dictionary, loading only texts
+- Doesn't need to be created on Awake().
+- Way better for production as you won't need to run the project from initial load screen.
+- Monobehaviours should be fine for very small projects though, you choose :D.
+
+## How to setup staic approach:
+- Create a language in your project.
+- Create and place them in "Resources/Language"
+
+![1](Screenshots/0.png)
+
+### SetUp your default language
+- Set up it's texts along with the keys that will be used to track translations.
+
+![1](Screenshots/1.png)
+
+### Create other languages
+- Select the desired language.
+- Copy the keys from your default language and update the texts to match the new language.
+
+![1](Screenshots/2.png)
+
+### SetUp your default language
+- You don't need to reference the Scriptable Objects as the system will automatically get them from the resources folder.
+
+
+
+## How to setup Monobehaviour:
 
 - First you'll need to place the script in an object thats located in the <strong>first scene</strong> of your game! There's a prefab included for this if you want.
 
@@ -16,8 +44,6 @@ Easy way to implement localization for your games! Translate to any language! Th
 - Create a language in your project.
 
 ![1](Screenshots/0.png)
-
-
 
 ### SetUp your default language
 - Set up it's texts along with the keys that will be used to track translations.
