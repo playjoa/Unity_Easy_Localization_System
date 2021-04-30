@@ -9,13 +9,60 @@ public static class Translate
 
     public static event Action OnLanguageChanged;
     private static Dictionary<SystemLanguage, Language> languageDictionary;
-    private static SystemLanguage currentLanguage = SystemLanguage.English;
+    private static SystemLanguage currentLanguage = defaultLanguage;
 
     //CHANGE YOUR TO YOUR DESIRED USE
     private const string playerPrefLanguage = "gameLanguage";
     private const string languagesFolderInResources = "Languages";
 
     private static Language[] availableLanguages;
+
+    public static string CurrentLanguage => currentLanguage.ToString();
+    
+    public static string GetTranslatedText(string keyText)
+    {
+        InitializeSystem();
+
+        if (keyText == string.Empty)
+            return string.Empty;
+
+        keyText = keyText.ToLower();
+
+        if (!languageDictionary.ContainsKey(currentLanguage))
+            return GetDefaultLanguageText(keyText);
+
+        string translatedText = languageDictionary[currentLanguage].ReturnTranslatedText(keyText);
+
+        if (translatedText == "-empty-")
+            translatedText = GetDefaultLanguageText(keyText);
+
+        return translatedText;
+    }
+
+    public static void SetNewLanguage(SystemLanguage newLanguage)
+    {
+        InitializeSystem();
+
+        if (!AvailableLanguages().Contains(newLanguage))
+        {
+            currentLanguage = defaultLanguage;
+            Debug.LogError("This language [" + newLanguage.ToString() + "] is not available, switching to default language");
+            return;
+        }
+
+        currentLanguage = newLanguage;
+
+        RegisterLanguageNewMemory(currentLanguage);
+
+        OnLanguageChanged?.Invoke();
+    }
+
+    public static List<SystemLanguage> AvailableLanguages()
+    {
+        InitializeSystem();
+
+        return new List<SystemLanguage>(languageDictionary.Keys);
+    }
 
     static void InitializeSystem()
     {
@@ -47,49 +94,6 @@ public static class Translate
             currentLanguage = defaultLanguage;
 
         currentLanguage = currentSystemLanguage;
-    }
-
-    public static string GetTranslatedText(string keyText)
-    {
-        InitializeSystem();
-
-        if (keyText == string.Empty)
-            return string.Empty;
-
-        keyText = keyText.ToLower();
-
-        if (!languageDictionary.ContainsKey(currentLanguage))
-            return GetDefaultLanguageText(keyText);
-
-        string translatedText = languageDictionary[currentLanguage].ReturnTranslatedText(keyText);
-
-        if (translatedText == "-empty-")
-            translatedText = GetDefaultLanguageText(keyText);
-
-        return translatedText;
-    }
-
-    public static void SetNewLanguage(SystemLanguage newLanguage)
-    {
-        InitializeSystem();
-        
-        if (!AvailableLanguages().Contains(newLanguage))
-        {
-            currentLanguage = defaultLanguage;
-            Debug.LogError("This language is not available, switching to default language");
-            return;
-        }
-        
-        currentLanguage = newLanguage;
-
-        RegisterLanguageNewMemory(currentLanguage);
-
-        OnLanguageChanged?.Invoke();
-    }
-
-    public static List<SystemLanguage> AvailableLanguages()
-    { 
-        return  new List<SystemLanguage>(languageDictionary.Keys);
     }
 
     static void RegisterLanguageNewMemory(SystemLanguage newLanguage) 
