@@ -49,7 +49,9 @@ public class Translate : MonoBehaviour
 
         currentLanguage = currentSystemLanguage;
     }
-
+    
+    public static string CurrentLanguage => currentLanguage.ToString();
+    
     public static string GetTranslatedText(string keyText)
     {
         keyText = keyText.ToLower();
