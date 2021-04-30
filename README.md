@@ -1,6 +1,6 @@
 # Unity_LocalizationSystem
 
-Easy way to implement localization for your games! Translate to any language! This approach doesn't use text files, you can create your dictionary inside Unity!
+Easy way to implement new languages to use in your projects! Based on scriptable objects! This approach doesn't use text files, you can create your dictionary inside Unity!
 
 ## Features:
 - Easy to use.
