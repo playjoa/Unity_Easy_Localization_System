@@ -11,7 +11,7 @@ Easy way to implement new languages to use in your projects! Based on scriptable
 ## Why use static approach
 - It only calls for resources once to create the dictionary, loading only texts
 - Doesn't need to be created on Awake().
-- Way better for production as you won't need to run the project from initial load screen.
+- Way better for development as you won't need to run the project from initial load screen.
 - Monobehaviours should be fine for very small projects though, you choose :D.
 
 ## How to setup static approach:
