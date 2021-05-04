@@ -45,7 +45,10 @@ public class Translate : MonoBehaviour
         SystemLanguage currentSystemLanguage = CurrentSystemLanguage();
 
         if (!languageDictionary.ContainsKey(currentSystemLanguage))
+        {
             currentLanguage = defaultLanguage;
+            return;
+        }
 
         currentLanguage = currentSystemLanguage;
     }
