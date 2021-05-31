@@ -8,14 +8,13 @@ public static class Translate
     private static SystemLanguage defaultLanguage = SystemLanguage.English;
 
     public static event Action OnLanguageChanged;
+    
     private static Dictionary<SystemLanguage, Language> languageDictionary;
     private static SystemLanguage currentLanguage = defaultLanguage;
-
-    //CHANGE YOUR TO YOUR DESIRED USE
+    private static Language[] availableLanguages;
+    
     private const string playerPrefLanguage = "gameLanguage";
     private const string languagesFolderInResources = "Languages";
-
-    private static Language[] availableLanguages;
 
     public static string CurrentLanguage => currentLanguage.ToString();
 
