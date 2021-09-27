@@ -1,27 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
+using TranslationSystem.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LanguageSettings : MonoBehaviour
 {
-    [SerializeField]
-    private Dropdown dropDownLanguageOptions;
+    [SerializeField] private Dropdown dropDownLanguageOptions;
 
     private void OnEnable()
     {
         SetUpLanguageOptions();
     }
 
-    void SetUpLanguageOptions()
+    private void SetUpLanguageOptions()
     {
-        List<string> languagesNames = new List<string>();
-        int idCurrentLanguage = 0;
+        var languagesNames = new List<string>();
+        var idCurrentLanguage = 0;
 
 
         dropDownLanguageOptions.ClearOptions();
 
-        for (int i = 0; i < Translate.AvailableLanguages().Count; i++)
+        for (var i = 0; i < Translate.AvailableLanguages().Count; i++)
         {
             languagesNames.Add(Translate.AvailableLanguages()[i].ToString());
 
@@ -36,17 +35,14 @@ public class LanguageSettings : MonoBehaviour
         dropDownLanguageOptions.RefreshShownValue();
     }
     
-    bool isLanguageCurrentLanguage(SystemLanguage language)
+    private bool isLanguageCurrentLanguage(SystemLanguage language)
     {
-        if (language.ToString() != Translate.CurrentLanguage)
-            return false;
-
-        return true;
+        return language.ToString() == Translate.CurrentLanguage;
     }
 
     public void SetLanguage(int idDesiredLanguage)
     {
-        SystemLanguage languageToSet = Translate.AvailableLanguages()[idDesiredLanguage];
+        var languageToSet = Translate.AvailableLanguages()[idDesiredLanguage];
 
         Translate.SetNewLanguage(languageToSet);
     }

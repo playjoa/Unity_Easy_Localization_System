@@ -1,11 +1,12 @@
+using TranslationSystem.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
 public class Translator_UI_Text : MonoBehaviour
 {
-    [SerializeField]
-    private string textKey = "title";
+    [SerializeField] private string textKey = "title";
+    [SerializeField] private TranslateFormat translateFormat = TranslateFormat.Standard;
 
     private Text textFieldToTranslate;
 
@@ -23,8 +24,8 @@ public class Translator_UI_Text : MonoBehaviour
         Translate.OnLanguageChanged -= GetTranslatedText;
     }
 
-    void GetTranslatedText()
+    private void GetTranslatedText()
     {
-        textFieldToTranslate.text = Translate.GetTranslatedText(textKey);
+        textFieldToTranslate.text = Translate.GetTranslatedText(textKey,translateFormat);
     }  
 }

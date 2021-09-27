@@ -1,15 +1,15 @@
 using UnityEngine;
 
-[System.Serializable]
-public class TranslatedText
+namespace TranslationSystem.Base
 {
-    [SerializeField]
-    private string keyText = "helloWorld";
+    [System.Serializable]
+    public class TranslatedText
+    {
+        [SerializeField] private string keyText = "helloWorld";
 
-    [TextArea]
-    public string translatedText = "Hey World!";
+        [TextArea] public string translatedText = "Hey World!";
 
-    public string GetTextKey() => keyText.ToLower();
-
-    public string GetTranslatedText() => translatedText;
+        public string GetTextKey() => keyText.ToLower();
+        public string GetTranslatedText() => translatedText;
+    }
 }

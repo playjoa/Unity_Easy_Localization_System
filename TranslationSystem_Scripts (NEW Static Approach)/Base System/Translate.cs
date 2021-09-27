@@ -2,132 +2,145 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Translate
+namespace TranslationSystem.Base
 {
-    //CHANGE YOUR DESIRED DEFAULT LANGUAGE
-    private static SystemLanguage defaultLanguage = SystemLanguage.English;
-
-    public static event Action OnLanguageChanged;
-    
-    private static Dictionary<SystemLanguage, Language> languageDictionary;
-    private static SystemLanguage currentLanguage = defaultLanguage;
-    private static Language[] availableLanguages;
-    
-    private const string playerPrefLanguage = "gameLanguage";
-    private const string languagesFolderInResources = "Languages";
-
-    public static string CurrentLanguage => currentLanguage.ToString();
-
-    static void InitializeSystem()
+    public static class Translate
     {
-        if (languageDictionary != null)
-            return;
+        //CHANGE YOUR DESIRED DEFAULT LANGUAGE
+        private static SystemLanguage DefaultLanguage => SystemLanguage.English;
 
-        availableLanguages = Resources.LoadAll<Language>(languagesFolderInResources);
+        public static event Action OnLanguageChanged;
 
-        CreateDictionary();
-        GetCurrentLanguage();
-    }
+        private static Dictionary<SystemLanguage, Language> languageDictionary;
+        private static SystemLanguage currentLanguage = DefaultLanguage;
+        private static Language[] availableLanguages;
 
-    static void CreateDictionary()
-    {
-        languageDictionary = new Dictionary<SystemLanguage, Language>();
+        private const string PLAYERPREF_LANGUAGE_KEY = "gameLanguage";
+        private const string LANGUAGES_FOLDER_IN_RESOURCES = "Languages";
 
-        foreach (Language currentLanguage in availableLanguages)
+        public static string CurrentLanguage => currentLanguage.ToString();
+
+        private static void InitializeSystem()
         {
-            currentLanguage.SetUpLanguage();
-            languageDictionary.Add(currentLanguage.KeyLanguage, currentLanguage);
-        }
-    }
+            if (languageDictionary != null)
+                return;
 
-    static void GetCurrentLanguage()
-    {
-        SystemLanguage currentSystemLanguage = CurrentSystemLanguage();
+            availableLanguages = Resources.LoadAll<Language>(LANGUAGES_FOLDER_IN_RESOURCES);
 
-        if (!languageDictionary.ContainsKey(currentSystemLanguage))
-        {
-            currentLanguage = defaultLanguage;
-            return;
+            CreateDictionary();
+            GetCurrentLanguage();
         }
 
-        currentLanguage = currentSystemLanguage;
-    }
-
-    public static string GetTranslatedText(string keyText)
-    {
-        InitializeSystem();
-
-        if (keyText == string.Empty)
-            return string.Empty;
-
-        keyText = keyText.ToLower();
-
-        string translatedText = languageDictionary[currentLanguage].ReturnTranslatedText(keyText);
-
-        if (translatedText == "-empty-")
-            translatedText = GetDefaultLanguageText(keyText);
-
-        return translatedText;
-    }
-
-    public static void SetNewLanguage(SystemLanguage newLanguage)
-    {
-        InitializeSystem();
-
-        if (!AvailableLanguages().Contains(newLanguage))
+        private static void CreateDictionary()
         {
-            currentLanguage = defaultLanguage;
-            Debug.LogError("This language [" + newLanguage.ToString() + "] is not available, switching to default language");
-            return;
+            languageDictionary = new Dictionary<SystemLanguage, Language>();
+
+            foreach (var language in availableLanguages)
+            {
+                language.SetUpLanguage();
+                languageDictionary.Add(language.KeyLanguage, language);
+            }
         }
 
-        currentLanguage = newLanguage;
-
-        RegisterNewLanguageToMemory(currentLanguage);
-
-        OnLanguageChanged?.Invoke();
-    }
-
-    public static List<SystemLanguage> AvailableLanguages()
-    {
-        InitializeSystem();
-
-        return new List<SystemLanguage>(languageDictionary.Keys);
-    }
-
-    static void RegisterNewLanguageToMemory(SystemLanguage newLanguage) 
-    {
-        PlayerPrefs.SetString(playerPrefLanguage, newLanguage.ToString());
-    }
-
-    static string GetDefaultLanguageText(string key)
-    {
-        try
+        private static void GetCurrentLanguage()
         {
-            return languageDictionary[defaultLanguage].ReturnTranslatedText(key);
-        }
-        catch
-        {
-            string returnError = "Default Language not found or set! [" + defaultLanguage + "]";
-            Debug.LogError(returnError);
-            return returnError;
-        }
-    }
+            var currentSystemLanguage = CurrentSystemLanguage();
 
-    static SystemLanguage CurrentSystemLanguage()
-    {
-        if (PlayerPrefs.HasKey(playerPrefLanguage))
-        {
-           string savedLanguage = PlayerPrefs.GetString(playerPrefLanguage);
+            if (!languageDictionary.ContainsKey(currentSystemLanguage))
+            {
+                currentLanguage = DefaultLanguage;
+                return;
+            }
 
-           return ConvertStringToSystemLanguage(savedLanguage);
+            currentLanguage = currentSystemLanguage;
         }
 
-        return Application.systemLanguage;
-    }
+        public static string GetTranslatedText(string keyText)
+        {
+            InitializeSystem();
 
-    static SystemLanguage ConvertStringToSystemLanguage(string languageToConvert) 
-    {
-        return (SystemLanguage)Enum.Parse(typeof(SystemLanguage), languageToConvert);
-    } 
+            if (keyText == string.Empty)
+                return string.Empty;
+
+            keyText = keyText.ToLower();
+
+            var translatedText = languageDictionary[currentLanguage].ReturnTranslatedText(keyText);
+
+            if (translatedText == "-empty-")
+                translatedText = GetDefaultLanguageText(keyText);
+
+            return translatedText;
+        }
+        
+        public static string GetTranslatedText(string keyText, TranslateFormat translateFormat)
+        {
+            return translateFormat switch
+            {
+                TranslateFormat.Standard => GetTranslatedText(keyText),
+                TranslateFormat.ToUpper => GetTranslatedText(keyText).ToUpper(),
+                TranslateFormat.ToLower => GetTranslatedText(keyText).ToLower(),
+                TranslateFormat.FirstLetterUpper => GetTranslatedText(keyText),
+                _ => GetTranslatedText(keyText)
+            };
+        }
+
+        public static void SetNewLanguage(SystemLanguage newLanguage)
+        {
+            InitializeSystem();
+
+            if (!AvailableLanguages().Contains(newLanguage))
+            {
+                currentLanguage = DefaultLanguage;
+                Debug.LogError("This language [" + newLanguage +
+                               "] is not available, switching to default language");
+                return;
+            }
+
+            currentLanguage = newLanguage;
+
+            RegisterNewLanguageToMemory(currentLanguage);
+
+            OnLanguageChanged?.Invoke();
+        }
+
+        public static List<SystemLanguage> AvailableLanguages()
+        {
+            InitializeSystem();
+
+            return new List<SystemLanguage>(languageDictionary.Keys);
+        }
+
+        private static void RegisterNewLanguageToMemory(SystemLanguage newLanguage)
+        {
+            PlayerPrefs.SetString(PLAYERPREF_LANGUAGE_KEY, newLanguage.ToString());
+        }
+
+        private static string GetDefaultLanguageText(string key)
+        {
+            try
+            {
+                return languageDictionary[DefaultLanguage].ReturnTranslatedText(key);
+            }
+            catch
+            {
+                var returnError = "Default Language not found or set! [" + DefaultLanguage + "]";
+                Debug.LogError(returnError);
+                return returnError;
+            }
+        }
+
+        static SystemLanguage CurrentSystemLanguage()
+        {
+            if (!PlayerPrefs.HasKey(PLAYERPREF_LANGUAGE_KEY)) return Application.systemLanguage;
+
+            var savedLanguage = PlayerPrefs.GetString(PLAYERPREF_LANGUAGE_KEY);
+
+            return ConvertStringToSystemLanguage(savedLanguage);
+        }
+
+        private static SystemLanguage ConvertStringToSystemLanguage(string languageToConvert)
+        {
+            return (SystemLanguage)Enum.Parse(typeof(SystemLanguage), languageToConvert);
+        }
+    }
 }
