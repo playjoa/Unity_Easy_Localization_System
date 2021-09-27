@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 namespace TranslationSystem.Base
@@ -79,9 +80,14 @@ namespace TranslationSystem.Base
                 TranslateFormat.Standard => GetTranslatedText(keyText),
                 TranslateFormat.ToUpper => GetTranslatedText(keyText).ToUpper(),
                 TranslateFormat.ToLower => GetTranslatedText(keyText).ToLower(),
-                TranslateFormat.FirstLetterUpper => GetTranslatedText(keyText),
+                TranslateFormat.FirstLetterUpper => GetTranslatedText(keyText).ToTitleCase(),
                 _ => GetTranslatedText(keyText)
             };
+        }
+        
+        private static string ToTitleCase(this string title)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(title.ToLower()); 
         }
 
         public static void SetNewLanguage(SystemLanguage newLanguage)
