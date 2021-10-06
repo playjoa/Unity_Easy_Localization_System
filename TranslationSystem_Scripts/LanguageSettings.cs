@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using TranslationSystem.Base;
+using LocalizationSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +17,6 @@ public class LanguageSettings : MonoBehaviour
         var languagesNames = new List<string>();
         var idCurrentLanguage = 0;
 
-
         dropDownLanguageOptions.ClearOptions();
 
         for (var i = 0; i < Translate.AvailableLanguages().Count; i++)
@@ -30,7 +29,6 @@ public class LanguageSettings : MonoBehaviour
         }
 
         dropDownLanguageOptions.AddOptions(languagesNames);
-
         dropDownLanguageOptions.value = idCurrentLanguage;
         dropDownLanguageOptions.RefreshShownValue();
     }

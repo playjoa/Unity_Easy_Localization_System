@@ -1,4 +1,4 @@
-using TranslationSystem.Base;
+using TranslationSystem;
 using UnityEngine;
 using UnityEngine.UI;
 

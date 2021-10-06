@@ -1,5 +1,5 @@
 using TMPro;
-using TranslationSystem.Base;
+using LocalizationSystem;
 using UnityEngine;
 
 [RequireComponent(typeof(TextMeshProUGUI))]

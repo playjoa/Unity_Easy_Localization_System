@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
-namespace TranslationSystem.Base
+namespace LocalizationSystem
 {
     public static class Translate
     {
@@ -135,7 +135,7 @@ namespace TranslationSystem.Base
             }
         }
 
-        static SystemLanguage CurrentSystemLanguage()
+        private static SystemLanguage CurrentSystemLanguage()
         {
             if (!PlayerPrefs.HasKey(PLAYERPREF_LANGUAGE_KEY)) return Application.systemLanguage;
 
