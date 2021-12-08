@@ -1,4 +1,4 @@
-﻿namespace LocalizationSystem
+﻿namespace TranslationSystem.Components
 {
     public enum TranslateFormat
     {
