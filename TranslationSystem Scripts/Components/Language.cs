@@ -8,16 +8,18 @@ namespace TranslationSystem.Components
     public class Language : ScriptableObject
     {
         [SerializeField] private SystemLanguage keyLanguage = SystemLanguage.English;
-
         [SerializeField] private List<TranslatedText> textsToTranslate = new List<TranslatedText>();
 
         private Dictionary<string, string> languageDictionary;
-
+        
+        public List<TranslatedText> TranslatedTexts => textsToTranslate;
         public SystemLanguage KeyLanguage => keyLanguage;
 
-        public void SetUpLanguage()
+        public void Initiate() => CreateDictionary();
+
+        public void AddTranslatedText(TranslatedText translatedText)
         {
-            CreateDictionary();
+            textsToTranslate.Add(translatedText);
         }
 
         private void CreateDictionary()
@@ -25,9 +27,7 @@ namespace TranslationSystem.Components
             languageDictionary = new Dictionary<string, string>();
 
             foreach (var currentText in textsToTranslate)
-            {
                 languageDictionary.Add(currentText.GetTextKey(), currentText.GetTranslatedText());
-            }
         }
 
         public string ReturnTranslatedText(string key)

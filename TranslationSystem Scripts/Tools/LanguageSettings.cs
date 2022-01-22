@@ -34,7 +34,7 @@ namespace TranslationSystem.Tools
             dropDownLanguageOptions.RefreshShownValue();
         }
 
-        private bool CurrentLanguage(SystemLanguage language) => language.ToString().Equals(Translate.CurrentLanguage);
+        private static bool CurrentLanguage(SystemLanguage language) => language.ToString().Equals(Translate.CurrentLanguage);
 
         public void SetLanguage(int idDesiredLanguage)
         {

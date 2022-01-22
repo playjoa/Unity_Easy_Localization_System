@@ -10,7 +10,7 @@ namespace TranslationSystem.Controller
     public static class Translate
     {
         //CHANGE YOUR DESIRED DEFAULT LANGUAGE
-        private static SystemLanguage DefaultLanguage => SystemLanguage.English;
+        public static SystemLanguage DefaultLanguage => SystemLanguage.English;
         
         private static Dictionary<SystemLanguage, Language> _languagesDictionary;
         private static SystemLanguage _currentLanguage = DefaultLanguage;
@@ -18,7 +18,7 @@ namespace TranslationSystem.Controller
         public static event Action OnLanguageChanged;
         
         private const string PlayerPrefsLanguageKey = "gameLanguage";
-        private const string LanguagesFolderInResources = "Languages";
+        public const string LanguagesFolderInResources = "Languages";
 
         public static string CurrentLanguage => _currentLanguage.ToString();
         public static List<SystemLanguage> AvailableLanguages => _languagesDictionary.Keys.ToList();
@@ -39,7 +39,7 @@ namespace TranslationSystem.Controller
 
             foreach (var language in _availableLanguages)
             {
-                language.SetUpLanguage();
+                language.Initiate();
                 _languagesDictionary.Add(language.KeyLanguage, language);
             }
         }

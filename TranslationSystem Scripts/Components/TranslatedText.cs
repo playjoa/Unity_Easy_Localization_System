@@ -6,7 +6,6 @@ namespace TranslationSystem.Components
     public class TranslatedText
     {
         [SerializeField] private string keyText = "helloWorld";
-
         [TextArea] public string translatedText = "Hey World!";
 
         public string GetTextKey() => keyText.ToLower();

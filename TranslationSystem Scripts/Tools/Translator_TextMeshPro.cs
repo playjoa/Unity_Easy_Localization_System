@@ -1,24 +1,24 @@
+using TMPro;
 using TranslationSystem.Components;
 using TranslationSystem.Controller;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TranslationSystem.Tools
 {
-    [RequireComponent(typeof(Text))]
-    public class Translator_UI_Text : MonoBehaviour
+    [RequireComponent(typeof(TextMeshProUGUI))]
+    public class Translator_TextMeshPro : MonoBehaviour
     {
-        [Header("Text Config.")] 
-        [SerializeField] private Text textFieldToTranslate;
+        [Header("Text Config:")] 
+        [SerializeField] private TextMeshProUGUI textFieldToTranslate;
 
-        [Header("Translate Key Config.")] 
+        [Header("Translate Key Config:")] 
         [SerializeField] private string textKey = "title";
         [SerializeField] private TranslateFormat translateFormat = TranslateFormat.Standard;
 
         private void OnValidate()
         {
             if (textFieldToTranslate == null)
-                textFieldToTranslate = GetComponent<Text>();
+                textFieldToTranslate = GetComponent<TextMeshProUGUI>();
         }
 
         private void OnEnable()
@@ -35,6 +35,11 @@ namespace TranslationSystem.Tools
         private void GetTranslatedText()
         {
             textFieldToTranslate.text = Translate.GetText(textKey, translateFormat);
+        }
+
+        public void SetTranslateText(string translateKey, TranslateFormat format = TranslateFormat.Standard)
+        {
+            textFieldToTranslate.text = Translate.GetText(translateKey, format);
         }
     }
 }
